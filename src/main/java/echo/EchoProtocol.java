@@ -28,6 +28,15 @@ public class EchoProtocol implements Runnable {
             byte[] echoBuffer = new byte[BUFSIZE]; // Receive Buffer
             // Receive until client closes connection, indicated by -1
             while ((recvMsgSize = in.read(echoBuffer)) != -1) {
+                if(recvMsgSize >= 4) { // for quit
+                    try {
+                        Thread.sleep(100);
+                    } catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+
+//                    break;
+                }
                 out.write(echoBuffer, 0, recvMsgSize);
                 totalBytesEchoed += recvMsgSize;
             }
